@@ -36,7 +36,7 @@ RSpec.describe Gotsha::CLI do
     end
 
     context "with a test command configured" do
-      let(:test_command) { "bundle exec rspec" }
+      let(:test_command) { "rails t" }
 
       before do
         expect(File)

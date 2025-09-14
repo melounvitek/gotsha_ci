@@ -32,7 +32,7 @@ module Gotsha
 
       command = File.read(Gotsha::COMMANDS_FILE)
 
-      # system(command) TODO: causes recursion
+      Kernel.system(command)
     end
   end
 end
