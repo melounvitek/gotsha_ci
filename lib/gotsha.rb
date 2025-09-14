@@ -8,7 +8,8 @@ module Gotsha
   class NoCommandConfigured < StandardError; end
 
   CONFIG_DIR = ".gotsha"
-  COMMANDS_FILE = "#{CONFIG_DIR}/commands"
+  COMMANDS_FILE = "#{CONFIG_DIR}/commands".freeze
+  LAST_SUCCESS_FILE = "#{CONFIG_DIR}/last_success".freeze
 
   # Main entry
   class CLI
@@ -32,7 +33,18 @@ module Gotsha
 
       command = File.read(Gotsha::COMMANDS_FILE)
 
-      Kernel.system(command)
+      if Kernel.system(command)
+        puts "YAY, writing commit SHA..."
+        File.write(LAST_SUCCESS_FILE, last_commit_sha)
+      else
+        puts "FUCK"
+      end
+    end
+
+    private
+
+    def last_commit_sha
+      @last_commit_sha ||= `git rev-parse HEAD`.strip
     end
   end
 end
