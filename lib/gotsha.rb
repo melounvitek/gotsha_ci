@@ -41,7 +41,27 @@ module Gotsha
       end
     end
 
+    def verify
+      if checked?
+        puts "✓ gotsha: HEAD matches #{stored_sha}"
+        exit 0
+      else
+        puts "✗ gotsha: HEAD=#{last_commit_sha} != stored=#{stored_sha.inspect}"
+        exit 1
+      end
+    end
+
     private
+
+    def checked?
+      return false unless File.exist?(LAST_SUCCESS_FILE)
+
+      stored_sha == last_commit_sha
+    end
+
+    def stored_sha
+      @stored_sha ||= File.read(LAST_SUCCESS_FILE).strip rescue nil
+    end
 
     def last_commit_sha
       @last_commit_sha ||= `git rev-parse HEAD`.strip
