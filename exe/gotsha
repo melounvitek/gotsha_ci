@@ -2,4 +2,5 @@
 
 require "./lib/gotsha"
 
-Gotsha::CLI.call
+command = ARGV.first
+Gotsha::CLI.call(command)
