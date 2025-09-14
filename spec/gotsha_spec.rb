@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
-RSpec.describe Gotsha do
-  it "has a version number" do
-    expect(Gotsha::VERSION).not_to be nil
-  end
+require "fileutils"
 
-  it "does something useful" do
-    expect(false).to eq(true)
+RSpec.describe Gotsha::CLI do
+  describe "#init" do
+    it "sets up .gotsha/commands file" do
+      expect(FileUtils).to receive(:mkdir_p).with(".gotsha")
+      expect(FileUtils).to receive(:touch).with(".gotsha/commands")
+
+      described_class.call("init")
+    end
   end
 end

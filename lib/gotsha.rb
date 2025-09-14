@@ -5,8 +5,12 @@ require_relative "gotsha/version"
 module Gotsha
   class CLI
     def self.call(command)
-      p command
-      puts "Yay!"
+      new.public_send(command)
+    end
+
+    def init
+      FileUtils.mkdir_p(".gotsha")
+      FileUtils.touch(".gotsha/commands")
     end
   end
 end
