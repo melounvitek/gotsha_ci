@@ -5,6 +5,7 @@ require "fileutils"
 require_relative "gotsha/version"
 
 module Gotsha
+  # STFU Rubocop :-)
   class CLI
     def self.call(command) = new.public_send(command)
 
