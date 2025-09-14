@@ -3,6 +3,9 @@
 require_relative "gotsha/version"
 
 module Gotsha
-  class Error < StandardError; end
-  # Your code goes here...
+  class CLI
+    def self.call
+      puts "Yay!"
+    end
+  end
 end

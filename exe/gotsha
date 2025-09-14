@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-require "gotsha"
+require "./lib/gotsha"
+
+Gotsha::CLI.call
