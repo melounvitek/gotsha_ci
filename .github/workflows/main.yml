@@ -1,4 +1,4 @@
-name: Gotsha verify
+name: Gotsha
 
 on:
   pull_request:
