@@ -28,9 +28,9 @@ module Gotsha
       puts "Configure git notes to store Gotsha checks..."
       Kernel.system("git config --local notes.displayRef refs/notes/gotsha")
 
-      Kernel.system("git config --local --add remote.origin.push HEAD")
-      Kernel.system("git config --local --add remote.origin.push  'refs/notes/gotsha'")
-      Kernel.system("git config --local --add remote.origin.fetch 'refs/notes/gotsha:refs/notes/gotsha'")
+      Kernel.system("git config --local --replace-all remote.origin.push HEAD")
+      Kernel.system("git config --local --add remote.origin.push refs/notes/gotsha")
+      Kernel.system("git config --local --replace-all remote.origin.fetch refs/notes/gotsha:refs/notes/gotsha")
 
       puts "✓ Done"
     end

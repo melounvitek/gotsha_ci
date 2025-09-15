@@ -12,14 +12,16 @@ RSpec.describe Gotsha::CLI do
       expect(Kernel).to receive(:system).with("git config --local notes.displayRef refs/notes/gotsha")
 
       expect(Kernel).to receive(:system).with(
-        "git config --local --add remote.origin.push HEAD"
+        "git config --local --replace-all remote.origin.push HEAD"
       )
 
       expect(Kernel).to receive(:system).with(
-        "git config --local --add remote.origin.fetch 'refs/notes/gotsha:refs/notes/gotsha'"
+        "git config --local --add remote.origin.push refs/notes/gotsha"
       )
 
-      expect(Kernel).to receive(:system).with("git config --local --add remote.origin.push  'refs/notes/gotsha'")
+      expect(Kernel).to receive(:system).with(
+        "git config --local --replace-all remote.origin.fetch refs/notes/gotsha:refs/notes/gotsha"
+      )
 
       described_class.call(:init)
     end
