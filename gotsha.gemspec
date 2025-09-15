@@ -3,7 +3,7 @@
 require_relative "lib/gotsha/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "Gotsha"
+  spec.name = "gotsha"
   spec.version = Gotsha::VERSION
   spec.authors = ["Vitek Meloun"]
   spec.email = ["vitek@meloun.info"]
