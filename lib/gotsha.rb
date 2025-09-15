@@ -8,8 +8,8 @@ module Gotsha
   class NoCommandConfigured < StandardError; end
 
   CONFIG_DIR = ".gotsha"
-  COMMANDS_FILE = "#{CONFIG_DIR}/commands".freeze
-  LAST_SUCCESS_FILE = "#{CONFIG_DIR}/last_success".freeze
+  COMMANDS_FILE = "#{CONFIG_DIR}/commands"
+  LAST_SUCCESS_FILE = "#{CONFIG_DIR}/last_success"
 
   # Main entry
   class CLI
@@ -25,7 +25,14 @@ module Gotsha
       FileUtils.mkdir_p(CONFIG_DIR)
       FileUtils.touch(COMMANDS_FILE)
 
-      puts "Done"
+      puts "Configure git notes to store Gotsha checks..."
+      Kernel.system("git config --local notes.displayRef refs/notes/gotsha")
+
+      Kernel.system("git config --local --add remote.origin.push HEAD")
+      Kernel.system("git config --local --add remote.origin.push  'refs/notes/gotsha'")
+      Kernel.system("git config --local --add remote.origin.fetch 'refs/notes/gotsha:refs/notes/gotsha'")
+
+      puts "✓ Done"
     end
 
     def run
@@ -33,34 +40,26 @@ module Gotsha
 
       command = File.read(Gotsha::COMMANDS_FILE)
 
-      if Kernel.system(command)
-        puts "YAY, writing commit SHA..."
-        File.write(LAST_SUCCESS_FILE, last_commit_sha)
-      else
-        puts "FUCK"
-      end
+      return unless Kernel.system(command)
+
+      Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
+      puts "✅ gotsha: verified for #{last_commit_sha}"
     end
 
     def verify
-      if checked?
-        puts "✓ gotsha: HEAD matches #{stored_sha}"
+      if last_comment_note == "ok"
+        puts "✓ gotsha: #{last_commit_sha} verified"
         exit 0
       else
-        puts "✗ gotsha: HEAD=#{last_commit_sha} != stored=#{stored_sha.inspect}"
+        puts "✗ gotsha: #{last_commit_sha} was not verified"
         exit 1
       end
     end
 
     private
 
-    def checked?
-      return false unless File.exist?(LAST_SUCCESS_FILE)
-
-      stored_sha == last_commit_sha
-    end
-
-    def stored_sha
-      @stored_sha ||= File.read(LAST_SUCCESS_FILE).strip rescue nil
+    def last_comment_note
+      `git notes --ref=gotsha show #{last_commit_sha} 2>/dev/null`.strip
     end
 
     def last_commit_sha
