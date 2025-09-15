@@ -6,3 +6,6 @@ Gotsha is a tiny tool that lets you “sign off” your commit locally by runnin
 ## Why?
 Instead of pushing everything to CI, you can run the same checks locally (faster, cheaper, works offline) and prove you did it.
 Gotsha will make this proof visible in your pull request.
+
+## When, how?
+So far, this is just a quick proof of concept. When I will have something ready to be used by other people, I will update the documentation with details.
