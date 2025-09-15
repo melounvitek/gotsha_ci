@@ -48,10 +48,10 @@ module Gotsha
 
     def verify
       if last_comment_note == "ok"
-        puts "✓ gotsha: #{last_commit_sha} verified"
+        puts "✓ Test run"
         exit 0
       else
-        puts "✗ gotsha: #{last_commit_sha} was not verified"
+        puts "✗ Gotha! You did not run tests"
         exit 1
       end
     end
