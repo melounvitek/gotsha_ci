@@ -25,7 +25,14 @@ module Gotsha
       FileUtils.mkdir_p(CONFIG_DIR)
       FileUtils.touch(COMMANDS_FILE)
 
-      puts "Done"
+      puts "Configure git notes to store Gotsha checks..."
+      Kernel.system("git config --local notes.displayRef refs/notes/gotsha")
+
+      # fetch/push just gotsha notes
+      Kernel.system("git config --local --add remote.origin.fetch 'refs/notes/gotsha:refs/notes/gotsha'")
+      Kernel.system("git config --local --add remote.origin.push  'refs/notes/gotsha'")
+
+      puts "✓ Done"
     end
 
     def run

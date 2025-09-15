@@ -8,6 +8,10 @@ RSpec.describe Gotsha::CLI do
       expect(FileUtils).to receive(:mkdir_p).with(".gotsha")
       expect(FileUtils).to receive(:touch).with(".gotsha/commands")
 
+      expect(Kernel).to receive(:system).with("git config --local notes.displayRef refs/notes/gotsha")
+      expect(Kernel).to receive(:system).with("git config --local --add remote.origin.fetch 'refs/notes/gotsha:refs/notes/gotsha'")
+      expect(Kernel).to receive(:system).with("git config --local --add remote.origin.push  'refs/notes/gotsha'")
+
       described_class.call(:init)
     end
   end
