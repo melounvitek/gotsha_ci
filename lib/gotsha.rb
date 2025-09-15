@@ -40,12 +40,10 @@ module Gotsha
 
       command = File.read(Gotsha::COMMANDS_FILE)
 
-      if Kernel.system(command)
-        puts "YAY, writing commit SHA..."
-        File.write(LAST_SUCCESS_FILE, last_commit_sha)
-      else
-        puts "FUCK"
-      end
+      return unless Kernel.system(command)
+
+      Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
+      puts "✅ gotsha: verified for #{last_commit_sha}"
     end
 
     def verify

@@ -59,7 +59,7 @@ RSpec.describe Gotsha::CLI do
           .and_return(sha)
 
         expect(Kernel).to receive(:system).with(test_command).and_return(true)
-        expect(File).to receive(:write).with(Gotsha::LAST_SUCCESS_FILE, sha)
+        expect(Kernel).to receive(:system).with("git notes --ref=gotsha add -f -m 'ok'").and_return(true)
 
         described_class.call(:run)
       end
