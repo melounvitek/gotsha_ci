@@ -12,6 +12,10 @@ RSpec.describe Gotsha::CLI do
       expect(Kernel).to receive(:system).with("git config --local notes.displayRef refs/notes/gotsha")
 
       expect(Kernel).to receive(:system).with(
+        "git config --local --add remote.origin.push HEAD"
+      )
+
+      expect(Kernel).to receive(:system).with(
         "git config --local --add remote.origin.fetch 'refs/notes/gotsha:refs/notes/gotsha'"
       )
 
