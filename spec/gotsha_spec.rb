@@ -2,6 +2,7 @@
 
 require "fileutils"
 
+# rubocop:disable Metrics/BlockLength:
 RSpec.describe Gotsha::CLI do
   describe "init" do
     it "sets up .gotsha/commands file" do
@@ -9,7 +10,11 @@ RSpec.describe Gotsha::CLI do
       expect(FileUtils).to receive(:touch).with(".gotsha/commands")
 
       expect(Kernel).to receive(:system).with("git config --local notes.displayRef refs/notes/gotsha")
-      expect(Kernel).to receive(:system).with("git config --local --add remote.origin.fetch 'refs/notes/gotsha:refs/notes/gotsha'")
+
+      expect(Kernel).to receive(:system).with(
+        "git config --local --add remote.origin.fetch 'refs/notes/gotsha:refs/notes/gotsha'"
+      )
+
       expect(Kernel).to receive(:system).with("git config --local --add remote.origin.push  'refs/notes/gotsha'")
 
       described_class.call(:init)
@@ -41,7 +46,7 @@ RSpec.describe Gotsha::CLI do
 
     context "with a test command configured" do
       let(:test_command) { "rails t" }
-      let(:sha) { 'test-sha' }
+      let(:sha) { "test-sha" }
 
       before do
         expect(File)
@@ -65,4 +70,5 @@ RSpec.describe Gotsha::CLI do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength:
 end

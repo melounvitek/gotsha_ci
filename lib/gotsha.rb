@@ -8,8 +8,8 @@ module Gotsha
   class NoCommandConfigured < StandardError; end
 
   CONFIG_DIR = ".gotsha"
-  COMMANDS_FILE = "#{CONFIG_DIR}/commands".freeze
-  LAST_SUCCESS_FILE = "#{CONFIG_DIR}/last_success".freeze
+  COMMANDS_FILE = "#{CONFIG_DIR}/commands"
+  LAST_SUCCESS_FILE = "#{CONFIG_DIR}/last_success"
 
   # Main entry
   class CLI
@@ -65,7 +65,11 @@ module Gotsha
     end
 
     def stored_sha
-      @stored_sha ||= File.read(LAST_SUCCESS_FILE).strip rescue nil
+      @stored_sha ||= begin
+        File.read(LAST_SUCCESS_FILE).strip
+      rescue StandardError
+        nil
+      end
     end
 
     def last_commit_sha
