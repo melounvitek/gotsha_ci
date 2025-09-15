@@ -47,29 +47,19 @@ module Gotsha
     end
 
     def verify
-      if checked?
-        puts "✓ gotsha: HEAD matches #{stored_sha}"
+      if last_comment_note == "ok"
+        puts "✓ gotsha: #{last_commit_sha} verified"
         exit 0
       else
-        puts "✗ gotsha: HEAD=#{last_commit_sha} != stored=#{stored_sha.inspect}"
+        puts "✗ gotsha: #{last_commit_sha} was not verified"
         exit 1
       end
     end
 
     private
 
-    def checked?
-      return false unless File.exist?(LAST_SUCCESS_FILE)
-
-      stored_sha == last_commit_sha
-    end
-
-    def stored_sha
-      @stored_sha ||= begin
-        File.read(LAST_SUCCESS_FILE).strip
-      rescue StandardError
-        nil
-      end
+    def last_comment_note
+      `git notes --ref=gotsha show #{last_commit_sha} 2>/dev/null`.strip
     end
 
     def last_commit_sha
