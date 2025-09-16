@@ -14,6 +14,8 @@ module Gotsha
   CONFIG_TEMPLATE_PATH = File.expand_path("gotsha/templates/config.yml", __dir__)
   GH_CONFIG_FILE = File.join(CONFIG_DIR, "github_action_example.yml")
   GH_CONFIG_TEMPLATE_PATH = File.expand_path("gotsha/templates/github_action_example.yml", __dir__)
+  HOOKS_TEMPLATES_DIR = File.expand_path("gotsha/templates", __dir__)
+
 
   # Main entry
   class CLI
@@ -24,7 +26,7 @@ module Gotsha
     end
 
     def init
-      puts "Creating default files..."
+      puts "Creating files..."
 
       unless File.exist?(CONFIG_FILE)
         FileUtils.mkdir_p(CONFIG_DIR)
@@ -34,12 +36,20 @@ module Gotsha
 
       File.write(GH_CONFIG_FILE, File.read(GH_CONFIG_TEMPLATE_PATH))
 
-      puts "Configure git notes to store Gotsha checks..."
-      Kernel.system("git config --local notes.displayRef refs/notes/gotsha")
+      git_hooks_dest = ".gotsha/git_hooks"
+      FileUtils.mkdir_p(git_hooks_dest)
 
-      Kernel.system("git config --local --replace-all remote.origin.push HEAD")
-      Kernel.system("git config --local --add remote.origin.push refs/notes/gotsha")
-      Kernel.system("git config --local --replace-all remote.origin.fetch refs/notes/gotsha:refs/notes/gotsha")
+      %w[post-commit pre-push].each do |hook|
+        src = File.join(HOOKS_TEMPLATES_DIR, "git_hooks", hook)
+        dst = File.join(git_hooks_dest, hook)
+
+        next if File.exist?(dst)
+
+        FileUtils.cp(src, dst)
+        FileUtils.chmod("+x", dst)
+      end
+
+      Kernel.system("git config --local core.hooksPath .gotsha/git-hooks")
 
       puts "✓ Done"
     end

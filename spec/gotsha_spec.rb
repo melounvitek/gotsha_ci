@@ -12,22 +12,20 @@ RSpec.describe Gotsha::CLI do
     end
 
     it "creates default files and Git configuration" do
+      expect(FileUtils).to receive(:mkdir_p).with(".gotsha/git_hooks")
       expect(FileUtils).to receive(:mkdir_p).with(".gotsha")
+
       expect(File).to receive(:write).with(Gotsha::CONFIG_FILE, File.read(Gotsha::CONFIG_TEMPLATE_PATH))
       expect(File).to receive(:write).with(Gotsha::GH_CONFIG_FILE, File.read(Gotsha::GH_CONFIG_TEMPLATE_PATH))
 
-      expect(Kernel).to receive(:system).with("git config --local notes.displayRef refs/notes/gotsha")
+      expect(FileUtils).to receive(:cp).with(anything, ".gotsha/git_hooks/pre-push")
+      expect(FileUtils).to receive(:cp).with(anything, ".gotsha/git_hooks/post-commit")
+
+      expect(FileUtils).to receive(:chmod).with("+x", ".gotsha/git_hooks/pre-push")
+      expect(FileUtils).to receive(:chmod).with("+x", ".gotsha/git_hooks/post-commit")
 
       expect(Kernel).to receive(:system).with(
-        "git config --local --replace-all remote.origin.push HEAD"
-      )
-
-      expect(Kernel).to receive(:system).with(
-        "git config --local --add remote.origin.push refs/notes/gotsha"
-      )
-
-      expect(Kernel).to receive(:system).with(
-        "git config --local --replace-all remote.origin.fetch refs/notes/gotsha:refs/notes/gotsha"
+        "git config --local core.hooksPath .gotsha/git-hooks"
       )
 
       described_class.call(:init)
