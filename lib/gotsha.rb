@@ -35,8 +35,7 @@ module Gotsha
 
       File.write(GH_CONFIG_FILE, File.read(GH_CONFIG_TEMPLATE_PATH))
 
-      git_hooks_dest = ".gotsha/git_hooks"
-      FileUtils.mkdir_p(git_hooks_dest)
+      git_hooks_dest = ".git/hooks"
 
       %w[post-commit pre-push].each do |hook|
         src = File.join(HOOKS_TEMPLATES_DIR, "git_hooks", hook)
