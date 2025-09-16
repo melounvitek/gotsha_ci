@@ -8,8 +8,8 @@ module Gotsha
   class NoCommandConfigured < StandardError; end
 
   CONFIG_DIR = ".gotsha"
-  COMMANDS_FILE = "#{CONFIG_DIR}/commands"
-  LAST_SUCCESS_FILE = "#{CONFIG_DIR}/last_success"
+  CONFIG_FILE   = File.join(CONFIG_DIR, "config.yml")
+  TEMPLATE_PATH = File.expand_path("../gotsha/templates/config.yml", __FILE__)
 
   # Main entry
   class CLI
@@ -22,8 +22,11 @@ module Gotsha
     def init
       puts "Creating default config files..."
 
-      FileUtils.mkdir_p(CONFIG_DIR)
-      FileUtils.touch(COMMANDS_FILE)
+      unless File.exist?(CONFIG_FILE)
+        FileUtils.mkdir_p(CONFIG_DIR)
+
+        File.write(CONFIG_FILE, File.read(TEMPLATE_PATH))
+      end
 
       puts "Configure git notes to store Gotsha checks..."
       Kernel.system("git config --local notes.displayRef refs/notes/gotsha")
