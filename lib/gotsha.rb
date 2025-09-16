@@ -11,7 +11,9 @@ module Gotsha
 
   CONFIG_DIR = ".gotsha"
   CONFIG_FILE = File.join(CONFIG_DIR, "config.yml")
-  TEMPLATE_PATH = File.expand_path("gotsha/templates/config.yml", __dir__)
+  CONFIG_TEMPLATE_PATH = File.expand_path("gotsha/templates/config.yml", __dir__)
+  GH_CONFIG_FILE = File.join(CONFIG_DIR, "github_action_example.yml")
+  GH_CONFIG_TEMPLATE_PATH = File.expand_path("gotsha/templates/github_action_example.yml", __dir__)
 
   # Main entry
   class CLI
@@ -22,13 +24,15 @@ module Gotsha
     end
 
     def init
-      puts "Creating default config files..."
+      puts "Creating default files..."
 
       unless File.exist?(CONFIG_FILE)
         FileUtils.mkdir_p(CONFIG_DIR)
 
-        File.write(CONFIG_FILE, File.read(TEMPLATE_PATH))
+        File.write(CONFIG_FILE, File.read(CONFIG_TEMPLATE_PATH))
       end
+
+      File.write(GH_CONFIG_FILE, File.read(GH_CONFIG_TEMPLATE_PATH))
 
       puts "Configure git notes to store Gotsha checks..."
       Kernel.system("git config --local notes.displayRef refs/notes/gotsha")
