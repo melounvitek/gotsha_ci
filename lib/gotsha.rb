@@ -49,6 +49,7 @@ module Gotsha
       end
 
       Kernel.system("git config --local core.hooksPath .gotsha/git-hooks")
+
       puts "✓ Done"
     end
 
