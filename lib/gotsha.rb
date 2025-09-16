@@ -9,7 +9,7 @@ module Gotsha
   class NoCommandConfigured < StandardError; end
 
   CONFIG_DIR = ".gotsha"
-  CONFIG_FILE   = File.join(CONFIG_DIR, "config.yml")
+  CONFIG_FILE = File.join(CONFIG_DIR, "config.yml")
   TEMPLATE_PATH = File.expand_path("gotsha/templates/config.yml", __dir__)
 
   # Main entry
