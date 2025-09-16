@@ -10,7 +10,7 @@ module Gotsha
 
   CONFIG_DIR = ".gotsha"
   CONFIG_FILE   = File.join(CONFIG_DIR, "config.yml")
-  TEMPLATE_PATH = File.expand_path("../gotsha/templates/config.yml", __FILE__)
+  TEMPLATE_PATH = File.expand_path("gotsha/templates/config.yml", __dir__)
 
   # Main entry
   class CLI
@@ -42,7 +42,7 @@ module Gotsha
     def run
       commands = YAML.load_file(CONFIG_FILE).fetch("commands").join(" && ")
 
-      raise NoCommandConfigured if commands.to_s.size.zero?
+      raise NoCommandConfigured if commands.to_s.empty?
 
       return unless Kernel.system(commands)
 

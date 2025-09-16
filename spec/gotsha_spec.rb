@@ -63,7 +63,7 @@ RSpec.describe Gotsha::CLI do
         allow(YAML)
           .to receive(:load_file)
           .with(Gotsha::CONFIG_FILE)
-          .and_return({"commands" => [test_command]})
+          .and_return({ "commands" => [test_command] })
       end
 
       it "runs the command" do
