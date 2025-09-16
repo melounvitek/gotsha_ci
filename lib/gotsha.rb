@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "fileutils"
+require "yaml"
 
 require_relative "gotsha/version"
 
@@ -39,11 +40,11 @@ module Gotsha
     end
 
     def run
-      raise NoCommandConfigured unless File.exist?(COMMANDS_FILE)
+      commands = YAML.load_file(CONFIG_FILE).fetch("commands").join(" && ")
 
-      command = File.read(Gotsha::COMMANDS_FILE)
+      raise NoCommandConfigured if commands.to_s.size.zero?
 
-      return unless Kernel.system(command)
+      return unless Kernel.system(commands)
 
       Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
       puts "✅ gotsha: verified for #{last_commit_sha}"
