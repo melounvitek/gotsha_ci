@@ -45,7 +45,7 @@ RSpec.describe Gotsha::CLI do
         allow(YAML)
           .to receive(:load_file)
           .with(Gotsha::CONFIG_FILE)
-          .and_return({"commands" => []})
+          .and_return({ "commands" => [] })
       end
 
       it "fails with proper error" do
