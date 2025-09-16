@@ -5,9 +5,13 @@ require "fileutils"
 # rubocop:disable Metrics/BlockLength:
 RSpec.describe Gotsha::CLI do
   describe "init" do
-    it "sets up .gotsha/commands file" do
+    before do
+      allow(File).to receive(:exist?).and_return(false)
+    end
+
+    it "sets up `.gotsha/config.yml` file" do
       expect(FileUtils).to receive(:mkdir_p).with(".gotsha")
-      expect(FileUtils).to receive(:touch).with(".gotsha/commands")
+      expect(File).to receive(:write).with(Gotsha::CONFIG_FILE, File.read(Gotsha::TEMPLATE_PATH))
 
       expect(Kernel).to receive(:system).with("git config --local notes.displayRef refs/notes/gotsha")
 
@@ -38,9 +42,10 @@ RSpec.describe Gotsha::CLI do
   describe "run" do
     context "without test command configured" do
       before do
-        expect(File)
-          .to receive(:exist?).with(Gotsha::COMMANDS_FILE)
-          .and_return(false)
+        allow(YAML)
+          .to receive(:load_file)
+          .with(Gotsha::CONFIG_FILE)
+          .and_return({"commands" => []})
       end
 
       it "fails with proper error" do
