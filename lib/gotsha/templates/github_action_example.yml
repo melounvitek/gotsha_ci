@@ -1,3 +1,4 @@
+# Can be stored at .github/workflows/main.yml
 name: Gotsha
 
 on:
