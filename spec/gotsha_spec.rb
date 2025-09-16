@@ -13,7 +13,7 @@ RSpec.describe Gotsha::CLI do
 
     it "sets up `.gotsha/config.yml` file" do
       expect(FileUtils).to receive(:mkdir_p).with(".gotsha")
-      expect(File).to receive(:write).with(Gotsha::CONFIG_FILE, File.read(Gotsha::TEMPLATE_PATH))
+      expect(File).to receive(:write).with(Gotsha::CONFIG_FILE, File.read(Gotsha::CONFIG_TEMPLATE_PATH))
 
       expect(Kernel).to receive(:system).with("git config --local notes.displayRef refs/notes/gotsha")
 
