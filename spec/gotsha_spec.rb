@@ -4,6 +4,8 @@ require "fileutils"
 
 # rubocop:disable Metrics/BlockLength:
 RSpec.describe Gotsha::CLI do
+  before { allow($stdout).to receive(:puts) }
+
   describe "init" do
     before do
       allow(File).to receive(:exist?).and_return(false)
