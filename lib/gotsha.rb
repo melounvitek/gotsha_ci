@@ -14,6 +14,8 @@ module Gotsha
   CONFIG_TEMPLATE_PATH = File.expand_path("gotsha/templates/config.yml", __dir__)
   GH_CONFIG_FILE = File.join(CONFIG_DIR, "github_action_example.yml")
   GH_CONFIG_TEMPLATE_PATH = File.expand_path("gotsha/templates/github_action_example.yml", __dir__)
+  HOOKS_TEMPLATES_DIR = File.expand_path("gotsha/templates", __dir__)
+  HOOKS_DIR = File.join(CONFIG_DIR, "hooks")
 
   # Main entry
   class CLI
@@ -24,7 +26,7 @@ module Gotsha
     end
 
     def init
-      puts "Creating default files..."
+      puts "Creating files..."
 
       unless File.exist?(CONFIG_FILE)
         FileUtils.mkdir_p(CONFIG_DIR)
@@ -34,12 +36,19 @@ module Gotsha
 
       File.write(GH_CONFIG_FILE, File.read(GH_CONFIG_TEMPLATE_PATH))
 
-      puts "Configure git notes to store Gotsha checks..."
-      Kernel.system("git config --local notes.displayRef refs/notes/gotsha")
+      FileUtils.mkdir_p(HOOKS_DIR)
 
-      Kernel.system("git config --local --replace-all remote.origin.push HEAD")
-      Kernel.system("git config --local --add remote.origin.push refs/notes/gotsha")
-      Kernel.system("git config --local --replace-all remote.origin.fetch refs/notes/gotsha:refs/notes/gotsha")
+      %w[post-commit pre-push].each do |hook|
+        src = File.join(HOOKS_TEMPLATES_DIR, "git_hooks", hook)
+        dst = File.join(HOOKS_DIR, hook)
+
+        next if File.exist?(dst)
+
+        FileUtils.cp(src, dst)
+        FileUtils.chmod("+x", dst)
+      end
+
+      Kernel.system("git config --local core.hooksPath .gotsha/hooks")
 
       puts "✓ Done"
     end
@@ -56,18 +65,21 @@ module Gotsha
 
       raise NoCommandConfigured if commands.to_s.empty?
 
-      return unless Kernel.system(commands)
+      if Kernel.system(commands)
+        Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
 
-      Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
-      puts "✅ gotsha: verified for #{last_commit_sha}"
+        puts "\n✓ Gotsha: tests passed\n\n"
+      else
+        puts "\n✗ Gotsha: tests failed\n\n"
+      end
     end
 
     def verify
       if last_comment_note == "ok"
-        puts "✓ gotsha: #{last_commit_sha} verified"
+        puts "\n✓ Gotsha: tests passed\n\n"
         exit 0
       else
-        puts "✗ gotsha: #{last_commit_sha} was not verified"
+        puts "\n✗ Gotsha: not verified yet\n\n"
         exit 1
       end
     end
