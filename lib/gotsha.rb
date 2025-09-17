@@ -69,18 +69,18 @@ module Gotsha
       if Kernel.system(commands)
         Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
 
-        puts "✓ Gotsha: success"
+        puts "✓ Gotsha: tests paassed\n"
       else
-        puts "✗ Gotsha: verification failed"
+        puts "✗ Gotsha: tests failed\n"
       end
     end
 
     def verify
       if last_comment_note == "ok"
-        puts "✓ Gotsha: last commit verified"
+        puts "✓ Gotsha: verified"
         exit 0
       else
-        puts "✗ Gotsha: last commit not verified"
+        puts "✗ Gotsha: not verified yet"
         exit 1
       end
     end
