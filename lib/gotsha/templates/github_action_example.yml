@@ -1,4 +1,5 @@
-# Can be stored at .github/workflows/main.yml
+# If you want to create Github Action, copy this file into .gihtub folder
+# For example to: .github/workflows/main.yml
 name: Gotsha
 
 on:
