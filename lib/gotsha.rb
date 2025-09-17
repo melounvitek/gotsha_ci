@@ -49,7 +49,7 @@ module Gotsha
         FileUtils.chmod("+x", dst)
       end
 
-      Kernel.system("git config --local core.hooksPath .gotsha/git-hooks")
+      Kernel.system("git config --local core.hooksPath .gotsha/hooks")
 
       puts "✓ Done"
     end
