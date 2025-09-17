@@ -95,4 +95,3 @@ module Gotsha
     end
   end
 end
-
