@@ -40,7 +40,7 @@ module Gotsha
       FileUtils.mkdir_p(git_hooks_dest)
 
       %w[post-commit pre-push].each do |hook|
-        src = File.join(HOOKS_TEMPLATES_DIR, "hooks", hook)
+        src = File.join(HOOKS_TEMPLATES_DIR, "git_hooks", hook)
         dst = File.join(git_hooks_dest, hook)
 
         next if File.exist?(dst)
