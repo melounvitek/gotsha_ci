@@ -69,7 +69,7 @@ module Gotsha
       if Kernel.system(commands)
         Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
 
-        puts "✓ Gotsha: tests paassed\n"
+        puts "✓ Gotsha: tests passed\n\n"
       else
         puts "✗ Gotsha: tests failed\n"
       end
