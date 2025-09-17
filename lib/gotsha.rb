@@ -77,7 +77,7 @@ module Gotsha
 
     def verify
       if last_comment_note == "ok"
-        puts "✓ Gotsha: tests passed"
+        puts "\n✓ Gotsha: tests passed\n"
         exit 0
       else
         puts "✗ Gotsha: not verified yet"
