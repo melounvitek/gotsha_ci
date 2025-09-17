@@ -15,7 +15,7 @@ module Gotsha
   GH_CONFIG_FILE = File.join(CONFIG_DIR, "github_action_example.yml")
   GH_CONFIG_TEMPLATE_PATH = File.expand_path("gotsha/templates/github_action_example.yml", __dir__)
   HOOKS_TEMPLATES_DIR = File.expand_path("gotsha/templates", __dir__)
-  HOOKS_DIR = "#{CONFIG_DIR}/hooks"
+  HOOKS_DIR = File.join(CONFIG_DIR, "hooks")
 
   # Main entry
   class CLI
