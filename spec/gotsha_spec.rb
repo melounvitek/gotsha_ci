@@ -15,6 +15,7 @@ RSpec.describe Gotsha::CLI do
       expect(FileUtils).to receive(:mkdir_p).with(".gotsha/hooks")
       expect(FileUtils).to receive(:mkdir_p).with(".gotsha")
 
+
       expect(File).to receive(:write).with(Gotsha::CONFIG_FILE, File.read(Gotsha::CONFIG_TEMPLATE_PATH))
       expect(File).to receive(:write).with(Gotsha::GH_CONFIG_FILE, File.read(Gotsha::GH_CONFIG_TEMPLATE_PATH))
 
