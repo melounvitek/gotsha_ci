@@ -15,6 +15,7 @@ module Gotsha
   GH_CONFIG_FILE = File.join(CONFIG_DIR, "github_action_example.yml")
   GH_CONFIG_TEMPLATE_PATH = File.expand_path("gotsha/templates/github_action_example.yml", __dir__)
   HOOKS_TEMPLATES_DIR = File.expand_path("gotsha/templates", __dir__)
+  HOOKS_DIR = "#{CONFIG_DIR}/hooks"
 
   # Main entry
   class CLI
@@ -35,13 +36,11 @@ module Gotsha
 
       File.write(GH_CONFIG_FILE, File.read(GH_CONFIG_TEMPLATE_PATH))
 
-      git_hooks_dest = ".gotsha/hooks"
-
-      FileUtils.mkdir_p(git_hooks_dest)
+      FileUtils.mkdir_p(HOOKS_DIR)
 
       %w[post-commit pre-push].each do |hook|
         src = File.join(HOOKS_TEMPLATES_DIR, "git_hooks", hook)
-        dst = File.join(git_hooks_dest, hook)
+        dst = File.join(HOOKS_DIR, hook)
 
         next if File.exist?(dst)
 
