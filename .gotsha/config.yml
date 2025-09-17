@@ -12,6 +12,6 @@ pre_push_tests: true
 # - bundle exec rspec
 # ```
 commands:
- - bundle exec rubocop -A
+ - bundle exec rubocop
  - bundle exec rspec --format progress
 
