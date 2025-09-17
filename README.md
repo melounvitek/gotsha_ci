@@ -1,5 +1,5 @@
 # Gotsha CI (WIP)
-You're pushing commits that were not tested? Gotsha!
+Pushing untested commits? Gotsha!
 
 ## What is it?
 Gotsha is a tiny tool that lets you “sign off” your commit locally by running tests and linters, and then recording the commit SHA. Your pull request can then be verified against that record, so reviewers (and GitHub) know you actually ran the checks before asking for review.
