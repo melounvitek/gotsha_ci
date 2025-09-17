@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
 [ -f .gotsha/config.yml ] || exit 0
-grep -qE 'pre_push:\s*true' .gotsha/config.yml || exit 0
-gotsha verify || { echo "❌ gotsha verification failed"; exit 1; }
-git push origin refs/notes/gotsha:refs/notes/gotsha >/dev/null 2>&1 || true
+
+grep -qE 'pre_push_tests:\s*true' .gotsha/config.yml && (bundle exec gotsha verify || bundle exec gotsha)
+git push --no-verify origin refs/notes/gotsha:refs/notes/gotsha # TODO: hide the output
 
