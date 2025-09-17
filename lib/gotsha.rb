@@ -69,6 +69,7 @@ module Gotsha
       return unless Kernel.system(commands)
 
       Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
+
       puts "✅ gotsha: verified for #{last_commit_sha}"
     end
 
