@@ -66,19 +66,21 @@ module Gotsha
 
       raise NoCommandConfigured if commands.to_s.empty?
 
-      return unless Kernel.system(commands)
+      if Kernel.system(commands)
+        Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
 
-      Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
-
-      puts "✅ gotsha: verified for #{last_commit_sha}"
+        puts "✓ Gotsha: success"
+      else
+        puts "✗ Gotsha: verification failed"
+      end
     end
 
     def verify
       if last_comment_note == "ok"
-        puts "✓ gotsha: #{last_commit_sha} verified"
+        puts "✓ Gotsha: last commit verified"
         exit 0
       else
-        puts "✗ gotsha: #{last_commit_sha} was not verified"
+        puts "✗ Gotsha: last commit not verified"
         exit 1
       end
     end
