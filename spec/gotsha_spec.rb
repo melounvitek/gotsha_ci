@@ -25,9 +25,7 @@ RSpec.describe Gotsha::CLI do
       expect(FileUtils).to receive(:chmod).with("+x", ".gotsha/hooks/pre-push")
       expect(FileUtils).to receive(:chmod).with("+x", ".gotsha/hooks/post-commit")
 
-      expect(Kernel).to receive(:system).with(
-        "git config --local core.hooksPath .gotsha/hooks"
-      )
+      expect(Kernel).to receive(:system).with("git config --local core.hooksPath .gotsha/hooks")
 
       described_class.call(:init)
     end
