@@ -11,7 +11,6 @@ module Gotsha
   include Config
   include Errors
 
-  # Main entry
   class ActionDispatcher
     def self.call(action_name = :run)
       action_name ||= :run
