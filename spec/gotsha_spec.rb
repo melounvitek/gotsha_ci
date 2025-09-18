@@ -4,7 +4,9 @@ require "fileutils"
 
 # rubocop:disable Metrics/BlockLength:
 RSpec.describe Gotsha::ActionDispatcher do
-  before { allow($stdout).to receive(:puts) }
+  before do
+    allow($stdout).to receive(:puts)
+  end
 
   describe "init" do
     before do
@@ -32,7 +34,7 @@ RSpec.describe Gotsha::ActionDispatcher do
 
   describe "without any action passed" do
     it "calls `run`" do
-      expect_any_instance_of(described_class).to receive(:run)
+      expect_any_instance_of(Gotsha::Actions::Run).to receive(:call)
 
       described_class.call
     end
@@ -96,31 +98,29 @@ RSpec.describe Gotsha::ActionDispatcher do
   describe "verify" do
     context "when last note is ok" do
       before do
-        allow_any_instance_of(described_class)
+        allow_any_instance_of(Gotsha::Actions::Verify)
           .to receive(:last_comment_note)
           .and_return("ok")
       end
 
-      it "prints success and exits 0" do
-        expect($stdout).to receive(:puts).with("\n✓ Gotsha: tests passed\n\n")
-        expect { described_class.call(:verify) }.to raise_error(SystemExit) { |e|
-          expect(e.status).to eq(0)
-        }
+      it "returns success message" do
+        result = described_class.call(:verify)
+
+        expect(result).to eq("tests passed")
       end
     end
 
     context "when last note is not ok" do
       before do
-        allow_any_instance_of(described_class)
+        allow_any_instance_of(Gotsha::Actions::Verify)
           .to receive(:last_comment_note)
           .and_return("nope")
       end
 
-      it "prints not verified and exits 1" do
-        expect($stdout).to receive(:puts).with("\n✗ Gotsha: not verified yet\n\n")
-        expect { described_class.call(:verify) }.to raise_error(SystemExit) { |e|
-          expect(e.status).to eq(1)
-        }
+      it "raises ActionFailed error" do
+        expect do
+          described_class.call(:verify)
+        end.to raise_error(Gotsha::Errors::ActionFailed)
       end
     end
   end
