@@ -26,6 +26,7 @@ module Gotsha
           FileUtils.chmod("+x", dst)
         end
 
+        # TODO: this needs to go!
         Kernel.system("git config --local core.hooksPath .gotsha/hooks")
 
         "done"
