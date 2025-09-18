@@ -92,7 +92,6 @@ RSpec.describe Gotsha::CLI do
       end
     end
   end
-  # rubocop:enable Metrics/BlockLength:
 
   describe "verify" do
     context "when last note is ok" do
@@ -125,4 +124,5 @@ RSpec.describe Gotsha::CLI do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength:
 end
