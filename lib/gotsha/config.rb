@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gotsha
   module Config
     CONFIG_DIR = ".gotsha"
