@@ -19,10 +19,10 @@ module Gotsha
 
   # Main entry
   class ActionDispatcher
-    def self.call(action = :run)
-      action ||= :run
+    def self.call(action_name = :run)
+      action_name ||= :run
 
-      new.public_send(action)
+      new.public_send(action_name)
     end
 
     def init
