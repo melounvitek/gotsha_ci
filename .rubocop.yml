@@ -9,3 +9,6 @@ Style/StringLiteralsInInterpolation:
 
 Metrics/MethodLength:
   Max: 20
+
+Documentation:
+  Enabled: false
