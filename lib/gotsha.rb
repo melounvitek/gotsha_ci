@@ -2,10 +2,9 @@
 
 require "fileutils"
 require "yaml"
-
-require_relative "gotsha/config"
-require_relative "gotsha/errors"
-require_relative "gotsha/version"
+require "gotsha/config"
+require "gotsha/errors"
+require "gotsha/version"
 
 module Gotsha
   include Config
