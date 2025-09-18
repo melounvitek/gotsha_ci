@@ -93,4 +93,36 @@ RSpec.describe Gotsha::CLI do
     end
   end
   # rubocop:enable Metrics/BlockLength:
+
+  describe "verify" do
+    context "when last note is ok" do
+      before do
+        allow_any_instance_of(described_class)
+          .to receive(:last_comment_note)
+          .and_return("ok")
+      end
+
+      it "prints success and exits 0" do
+        expect($stdout).to receive(:puts).with("\n✓ Gotsha: tests passed\n\n")
+        expect { described_class.call(:verify) }.to raise_error(SystemExit) { |e|
+          expect(e.status).to eq(0)
+        }
+      end
+    end
+
+    context "when last note is not ok" do
+      before do
+        allow_any_instance_of(described_class)
+          .to receive(:last_comment_note)
+          .and_return("nope")
+      end
+
+      it "prints not verified and exits 1" do
+        expect($stdout).to receive(:puts).with("\n✗ Gotsha: not verified yet\n\n")
+        expect { described_class.call(:verify) }.to raise_error(SystemExit) { |e|
+          expect(e.status).to eq(1)
+        }
+      end
+    end
+  end
 end
