@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "fileutils"
+require_relative "../lib/gotsha/action_dispatcher"
 
 # rubocop:disable Metrics/BlockLength:
 RSpec.describe Gotsha::ActionDispatcher do
