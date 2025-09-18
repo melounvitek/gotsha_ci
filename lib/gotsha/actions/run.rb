@@ -13,7 +13,10 @@ module Gotsha
 
         commands = Array(config.fetch("commands")).join(" && ")
 
-        raise(Errors::ActionFailed, "you need to define some test commands to run in `.gotsha/config.yml`") if commands.to_s.empty?
+        if commands.to_s.empty?
+          raise(Errors::ActionFailed,
+                "you need to define some test commands to run in `.gotsha/config.yml`")
+        end
 
         raise(Errors::ActionFailed, "tests failed") unless Kernel.system(commands)
 
