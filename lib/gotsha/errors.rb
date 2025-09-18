@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gotsha
   module Errors
     class NoCommandConfigured < StandardError; end
