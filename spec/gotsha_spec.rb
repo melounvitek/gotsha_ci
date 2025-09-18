@@ -3,7 +3,7 @@
 require "fileutils"
 
 # rubocop:disable Metrics/BlockLength:
-RSpec.describe Gotsha::CLI do
+RSpec.describe Gotsha::ActionDispatcher do
   before { allow($stdout).to receive(:puts) }
 
   describe "init" do

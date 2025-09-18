@@ -18,7 +18,7 @@ module Gotsha
   HOOKS_DIR = File.join(CONFIG_DIR, "hooks")
 
   # Main entry
-  class CLI
+  class ActionDispatcher
     def self.call(action = :run)
       action ||= :run
 
