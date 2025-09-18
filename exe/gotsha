@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require_relative "../lib/gotsha"
+require_relative "../lib/gotsha/errors"
 
 action = ARGV.first
 
@@ -9,7 +10,7 @@ begin
   message = Gotsha::ActionDispatcher.call(action)
   puts("\n✓ Gotsha: #{message}\n\n")
   exit 0
-rescue Errors::ActionFailed => e
+rescue Gotsha::Errors::ActionFailed => e
   puts "\n✗ Gotsha: #{e.message}\n\n"
   exit 1
 end
