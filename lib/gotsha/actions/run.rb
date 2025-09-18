@@ -15,7 +15,7 @@ module Gotsha
 
         if commands.to_s.empty?
           raise(Errors::ActionFailed,
-                "you need to define some test commands to run in `.gotsha/config.yml`")
+                "please, define some test commands in `.gotsha/config.yml`")
         end
 
         raise(Errors::ActionFailed, "tests failed") unless Kernel.system(commands)
