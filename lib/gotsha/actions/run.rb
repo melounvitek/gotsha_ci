@@ -13,7 +13,7 @@ module Gotsha
 
         commands = Array(config.fetch("commands")).join(" && ")
 
-        if commands.to_s.empty?
+        if commands.empty?
           raise(Errors::ActionFailed,
                 "please, define some test commands in `.gotsha/config.yml`")
         end
