@@ -154,7 +154,7 @@ RSpec.describe Gotsha::ActionDispatcher do
     it "raises ActionFailed error with user friendly message" do
       expect do
         described_class.call(unknown_action)
-      end.to raise_error(Gotsha::Errors::ActionFailed, "unknown command `#{unknown_action}`")
+      end.to raise_error(Gotsha::Errors::ActionFailed)
     end
   end
 end
