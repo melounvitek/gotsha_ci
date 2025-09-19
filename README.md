@@ -1,4 +1,4 @@
-# Gotsha — CI replacement
+# Gotsha — your local CI
 Pushing untested commits? Gotsha!
 
 ## What is it?
