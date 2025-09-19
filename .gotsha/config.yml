@@ -11,4 +11,4 @@ commands:
  - rubocop && rspec
 
 # Print out test commands output
-debug: true
+debug: false

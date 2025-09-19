@@ -104,11 +104,19 @@ RSpec.describe Gotsha::ActionDispatcher do
   end
 
   describe "verify" do
+    let(:last_sha) { "sha_test" }
+
     context "when last note is ok" do
       before do
-        allow_any_instance_of(Gotsha::Actions::Verify)
-          .to receive(:last_comment_note)
-          .and_return("ok")
+        expect(Gotsha::BashCommand)
+          .to receive(:run!)
+          .with("git rev-parse HEAD")
+          .and_return(double("bash_response", text_output: last_sha))
+
+        expect(Gotsha::BashCommand)
+          .to receive(:run!)
+          .with("git notes --ref=gotsha show #{last_sha}")
+          .and_return(double("bash_response", text_output: "ok"))
       end
 
       it "returns success message" do
