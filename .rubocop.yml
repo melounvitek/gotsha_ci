@@ -1,5 +1,6 @@
 AllCops:
   TargetRubyVersion: 2.6
+  NewCops: disable
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
@@ -10,5 +11,5 @@ Style/StringLiteralsInInterpolation:
 Metrics/MethodLength:
   Max: 20
 
-Documentation:
+Style/Documentation:
   Enabled: false
