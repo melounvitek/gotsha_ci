@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gotsha — your local CI</title>
+  <meta name="description" content="Gotsha — sign off your commits locally by running tests & linters and proving it in your PR." />
+  <style>
+    :root{
+      --bg:#0D1117;           /* GitHub dark */
+      --text:#E6EDF3;         /* subtle off-white */
+      --muted:#8B949E;
+      --accent:#00FF66;       /* terminal green */
+      --card:#0F1320;
+      --border:#1F2430;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
+      background: radial-gradient(1200px 600px at 50% -10%, #101622 0%, var(--bg) 50%);
+      color:var(--text);
+      line-height:1.6;
+    }
+    .container{max-width:980px;margin:0 auto;padding:32px}
+    header{display:flex;align-items:center;gap:18px;margin-top:32px}
+    .logo{width:260px; max-width: 80vw;}
+    .title{font-size:clamp(22px, 4vw, 28px);letter-spacing:.4px}
+    main{margin-top:36px}
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:22px;
+      background:linear-gradient(180deg, var(--card), rgba(15,19,32,.6));
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .hero h1{
+      margin:0;
+      font-size:clamp(28px, 6vw, 42px);
+      line-height:1.15;
+    }
+    .hero p{margin:0;color:var(--muted);font-size:clamp(14px, 2.5vw, 18px)}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .btn{
+      appearance:none;border:1px solid var(--border);
+      background:#0b111b;color:var(--text);
+      padding:10px 14px;border-radius:10px;text-decoration:none;
+      font-weight:600;
+    }
+    .btn.primary{border-color:color-mix(in srgb, var(--accent) 60%, #000);
+      background:linear-gradient(180deg, color-mix(in srgb, var(--accent) 18%, #000) , #0b111b);
+      color:var(--accent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, #000);
+    }
+    .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
+    .card{
+      border:1px solid var(--border);border-radius:14px;padding:16px;background:#0b111b75
+    }
+    .card h3{margin:0 0 6px 0;font-size:18px}
+    .foot{margin-top:24px;color:var(--muted);font-size:13px}
+    /* subtle animations */
+    @keyframes glow { from { filter: drop-shadow(0 0 0 rgba(0,255,102,0)); }
+                      to   { filter: drop-shadow(0 0 6px rgba(0,255,102,.55)); } }
+    .logo .node{animation: glow 1.6s ease-in-out infinite alternate}
+    @media (prefers-reduced-motion: reduce){ .logo .node{animation:none} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <!-- Inline SVG logo: "Got" white, "SHA" green, Git graph with check -->
+      <svg class="logo" viewBox="0 0 820 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gotsha logo">
+        <defs>
+          <style>
+            .w { fill: #E6EDF3; }
+            .g { fill: #00FF66; }
+            .stroke { stroke: #00FF66; stroke-width: 20; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+          </style>
+        </defs>
+        <!-- Git branch frame -->
+        <path class="stroke" d="M40,160 Q40,100 100,100 H520"/>
+        <circle class="g node" cx="100" cy="100" r="18"/>
+        <circle class="g node" cx="520" cy="100" r="18"/>
+        <path class="stroke" d="M520,100 L620,40"/>
+        <circle class="g node" cx="620" cy="40" r="18"/>
+        <!-- Wordmark: Got + SHA -->
+        <g transform="translate(120,148)">
+          <!-- 'Got' -->
+          <text class="w" x="0" y="0" font-size="112" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace">Got</text>
+          <!-- 'SHA' -->
+          <text class="g" x="245" y="0" font-size="112" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace">SHA</text>
+        </g>
+        <!-- Checkmark integrated near 'SHA' -->
+        <path class="stroke" d="M660,120 l35,35 70,-80"/>
+      </svg>
+      <div class="title">your local CI</div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <h1 id="hero-title">Sign off your commits locally — and prove it.</h1>
+        <p>Run tests & linters on your machine, store results as Git notes, and let your PR show the proof.</p>
+        <div class="actions">
+          <a class="btn primary" href="#install">Install</a>
+          <a class="btn" href="#how-it-works">How it works</a>
+        </div>
+      </section>
+
+      <section class="grid" id="how-it-works">
+        <article class="card">
+          <h3>1) Run locally</h3>
+          <p>Gotsha runs your test suite and linters using your config. Fast, offline, no queue.</p>
+        </article>
+        <article class="card">
+          <h3>2) Record the SHA</h3>
+          <p>Results are attached as <em>Git notes</em> to the commit SHA.</p>
+        </article>
+        <article class="card">
+          <h3>3) Show in your PR</h3>
+          <p>Push as usual — the note follows your commit, making the proof visible to reviewers.</p>
+        </article>
+      </section>
+
+      <section class="card" id="install" aria-labelledby="install-title">
+        <h3 id="install-title">Install</h3>
+        <pre><code># RubyGems (example)
+gem install gotsha
+
+# Or add to your Gemfile
+gem 'gotsha'</code></pre>
+      </section>
+
+      <p class="foot">© <span id="y"></span> Gotsha. Built for developers who test before they push.</p>
+    </main>
+  </div>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
