@@ -12,7 +12,7 @@ module Gotsha
   class ActionDispatcher
     def self.call(action_name = "run")
       action_name ||= "run"
-      action = Kernel.const_get("Gotsha::Actions::#{action_name.capitalize}")
+      action = const_get("Gotsha::Actions::#{action_name.capitalize}")
 
       action.new.call
     rescue NameError
