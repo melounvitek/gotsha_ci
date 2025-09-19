@@ -93,8 +93,10 @@ RSpec.describe Gotsha::ActionDispatcher do
           .to receive(:last_commit_sha)
           .and_return(sha)
 
-        expect(Kernel).to receive(:system).with(test_command).and_return(true)
-        expect(Kernel).to receive(:system).with("git notes --ref=gotsha add -f -m 'ok'").and_return(true)
+        expect(Gotsha::BashCommand).to receive(:run!).with(test_command).and_return(double("bash_response",
+                                                                                           "success?" => true))
+
+        expect(Gotsha::BashCommand).to receive(:run!).with("git notes --ref=gotsha add -f -m 'ok'")
 
         described_class.call(:run)
       end

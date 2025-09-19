@@ -18,9 +18,10 @@ module Gotsha
                 "please, define some test commands in `.gotsha/config.yml`")
         end
 
-        raise(Errors::ActionFailed, "tests failed") unless Kernel.system(commands)
+        tests_result = BashCommand.run!(commands)
+        raise(Errors::ActionFailed, "tests failed") unless tests_result.success?
 
-        Kernel.system("git notes --ref=gotsha add -f -m 'ok'")
+        BashCommand.run!("git notes --ref=gotsha add -f -m 'ok'")
 
         "tests passed"
       rescue Errno::ENOENT
