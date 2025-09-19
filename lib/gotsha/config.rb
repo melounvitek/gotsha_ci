@@ -10,6 +10,11 @@ module Gotsha
     HOOKS_TEMPLATES_DIR = File.expand_path("templates", __dir__)
     HOOKS_DIR = File.join(CONFIG_DIR, "hooks")
 
-    USER_CONFIG = YAML.load_file(CONFIG_FILE)
+    USER_CONFIG =
+      begin
+        YAML.load_file(CONFIG_FILE)
+      rescue Errno::ENOENT
+        {}
+      end
   end
 end
