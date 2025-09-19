@@ -7,6 +7,8 @@ module Gotsha
     def self.run!(command)
       stdout = `#{command}`
 
+      # puts stdout
+
       new(stdout, $CHILD_STATUS)
     end
 
