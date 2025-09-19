@@ -5,7 +5,7 @@ module Gotsha
     class Verify
       def call
         last_commit_sha = BashCommand.run!("git rev-parse HEAD").text_output.strip
-        last_comment_note = BashCommand.silent_run!("git notes --ref=gotsha show #{last_commit_sha}").text_output.strip
+        last_comment_note = BashCommand.run!("git notes --ref=gotsha show #{last_commit_sha}").text_output.strip
 
         raise(Errors::ActionFailed, "not verified yet") unless last_comment_note == "ok"
 
