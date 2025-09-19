@@ -21,8 +21,6 @@ module Gotsha
           puts tests_result.text_output
           raise Errors::ActionFailed, "tests failed"
         end
-      rescue Errno::ENOENT
-        raise Errors::ActionFailed, "config files not found, please run `bundle exec gotsha init` first"
       end
     end
   end
