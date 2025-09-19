@@ -114,7 +114,7 @@ RSpec.describe Gotsha::ActionDispatcher do
           .and_return(double("bash_response", text_output: last_sha))
 
         expect(Gotsha::BashCommand)
-          .to receive(:silent_run!)
+          .to receive(:run!)
           .with("git notes --ref=gotsha show #{last_sha}")
           .and_return(double("bash_response", text_output: "ok"))
       end
