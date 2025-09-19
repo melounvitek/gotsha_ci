@@ -1,15 +1,21 @@
 # frozen_string_literal: true
 
 require "English"
+require_relative "config"
 
 module Gotsha
   class BashCommand
     def self.run!(command)
-      stdout = `#{command}`
+      output = []
 
-      # puts stdout
+      IO.popen(command) do |io|
+        io.each do |line|
+          Config::USER_CONFIG["debug"] && puts(line)
+          output << line
+        end
+      end
 
-      new(stdout, $CHILD_STATUS)
+      new(output.join("\n"), $CHILD_STATUS)
     end
 
     def initialize(stdout, status)

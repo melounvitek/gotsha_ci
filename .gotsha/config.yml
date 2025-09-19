@@ -10,3 +10,5 @@ commands:
 # - bundle exec rspec
  - rubocop && rspec
 
+# Print out test commands output
+debug: true
