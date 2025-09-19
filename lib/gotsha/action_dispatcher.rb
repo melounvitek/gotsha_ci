@@ -14,6 +14,8 @@ module Gotsha
       action = Kernel.const_get("Gotsha::Actions::#{action_name.capitalize}")
 
       action.new.call
+    rescue NameError
+      raise Errors::ActionFailed, "unknown command `#{action_name}`"
     end
   end
 end

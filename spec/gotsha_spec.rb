@@ -131,4 +131,14 @@ RSpec.describe Gotsha::ActionDispatcher do
     end
   end
   # rubocop:enable Metrics/BlockLength:
+
+  describe "with unknown action" do
+    let(:unknown_action) { "obey" }
+
+    it "raises ActionFailed error with user friendly message" do
+      expect do
+        described_class.call(unknown_action)
+      end.to raise_error(Gotsha::Errors::ActionFailed, "unknown command `#{unknown_action}`")
+    end
+  end
 end
