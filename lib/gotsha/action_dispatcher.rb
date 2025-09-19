@@ -17,11 +17,14 @@ module Gotsha
       end
 
       action_name ||= "run"
-      action = const_get("Gotsha::Actions::#{action_name.capitalize}")
+
+      begin
+        action = const_get("Gotsha::Actions::#{action_name.capitalize}")
+      rescue NameError
+        raise Errors::ActionFailed, "unknown command `#{action_name}`"
+      end
 
       action.new.call
-    rescue NameError
-      raise Errors::ActionFailed, "unknown command `#{action_name}`"
     end
   end
 end
