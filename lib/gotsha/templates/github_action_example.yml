@@ -1,5 +1,5 @@
-# If you want to create Github Action, copy this file into .gihtub folder
-# For example to: .github/workflows/main.yml
+# If you want to create Github Action, copy this file into `.gihtub` folder
+# For example: `[PROJECT_ROOT]/.github/workflows/gotsha.yml`
 name: Gotsha
 
 on:
