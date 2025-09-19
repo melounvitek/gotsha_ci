@@ -96,7 +96,7 @@ RSpec.describe Gotsha::ActionDispatcher do
         expect(Gotsha::BashCommand).to receive(:run!).with(test_command).and_return(double("bash_response",
                                                                                            "success?" => true))
 
-        expect(Gotsha::BashCommand).to receive(:run!).with("git notes --ref=gotsha add -f -m 'ok'")
+        expect(Gotsha::BashCommand).to receive(:silent_run!).with("git notes --ref=gotsha add -f -m 'ok'")
 
         described_class.call(:run)
       end

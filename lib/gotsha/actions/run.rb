@@ -14,7 +14,7 @@ module Gotsha
         tests_result = BashCommand.run!(commands)
         raise(Errors::ActionFailed, "tests failed") unless tests_result.success?
 
-        BashCommand.run!("git notes --ref=gotsha add -f -m 'ok'")
+        BashCommand.silent_run!("git notes --ref=gotsha add -f -m 'ok'")
 
         "tests passed"
       rescue Errno::ENOENT

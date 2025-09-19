@@ -30,5 +30,11 @@ module Gotsha
     def text_output
       @stdout
     end
+
+    def self.silent_run!(command)
+      return run!(command) if Config::USER_CONFIG["debug"]
+
+      run!("#{command} > /dev/null 2>&1")
+    end
   end
 end
