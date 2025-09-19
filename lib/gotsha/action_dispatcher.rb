@@ -14,7 +14,7 @@ module Gotsha
     DEFAULT_ACTION = "run"
 
     def self.call(action_name = DEFAULT_ACTION)
-      if !Config::USER_CONFIG.any? && action_name != INIT_SETUP_ACTION
+      if Config::USER_CONFIG.none? && action_name != INIT_SETUP_ACTION
         raise Errors::ActionFailed, "config files not found, please run `bundle exec gotsha init` first"
       end
 
