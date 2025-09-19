@@ -128,9 +128,15 @@ RSpec.describe Gotsha::ActionDispatcher do
 
     context "when last note is not ok" do
       before do
-        allow_any_instance_of(Gotsha::Actions::Verify)
-          .to receive(:last_comment_note)
-          .and_return("nope")
+        expect(Gotsha::BashCommand)
+          .to receive(:run!)
+          .with("git rev-parse HEAD")
+          .and_return(double("bash_response", text_output: last_sha))
+
+        expect(Gotsha::BashCommand)
+          .to receive(:run!)
+          .with("git notes --ref=gotsha show #{last_sha}")
+          .and_return(double("bash_response", text_output: ""))
       end
 
       it "raises ActionFailed error" do
