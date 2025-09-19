@@ -11,6 +11,7 @@ module Gotsha
       IO.popen(command) do |io|
         io.each do |line|
           Config::USER_CONFIG["debug"] && puts(line)
+
           output << line
         end
       end
