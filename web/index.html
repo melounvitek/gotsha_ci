@@ -90,44 +90,46 @@
         <!-- Checkmark integrated near 'SHA' -->
         <path class="stroke" d="M660,120 l35,35 70,-80"/>
       </svg>
-      <div class="title">your local CI</div>
+      <div class="title">your local CI. Coming soon!</div>
     </header>
 
     <main>
       <section class="hero" aria-labelledby="hero-title">
-        <h1 id="hero-title">Sign off your commits locally — and prove it.</h1>
+        <h1 id="hero-title">Sign-off your commits locally — and prove it.</h1>
         <p>Run tests & linters on your machine, store results as Git notes, and let your PR show the proof.</p>
         <div class="actions">
-          <a class="btn primary" href="#install">Install</a>
-          <a class="btn" href="#how-it-works">How it works</a>
+          <a class="btn primary" href="https://github.com/melounvitek/gotsha" target="_blank">View on Github</a>
         </div>
       </section>
 
-      <section class="grid" id="how-it-works">
+      <section class="grid">
         <article class="card">
           <h3>1) Run locally</h3>
-          <p>Gotsha runs your test suite and linters using your config. Fast, offline, no queue.</p>
+          <p>Gotsha runs the project test suite (or linters, or whatever else your simple YML config file says) on your machine. This can automatically happen for every Git commit, Git push, or only if you explicitly call it. Fast, offline, no queue. </p>
         </article>
         <article class="card">
           <h3>2) Record the SHA</h3>
-          <p>Results are attached as <em>Git notes</em> to the commit SHA.</p>
+          <p>Test results are attached as <em>Git notes</em> for the recent commit SHA.</p>
         </article>
         <article class="card">
-          <h3>3) Show in your PR</h3>
-          <p>Push as usual — the note follows your commit, making the proof visible to reviewers.</p>
+          <h3>3) Show in your GitHub PR</h3>
+          <p>Push as usual — the note follows your commit, tiny Github Action verifies it in few seconds, and making the tests result visible to reviewers.</p>
         </article>
       </section>
 
+          <!--
       <section class="card" id="install" aria-labelledby="install-title">
         <h3 id="install-title">Install</h3>
-        <pre><code># RubyGems (example)
+          <p>Install</p>
+        <pre><code># RubyGems
 gem install gotsha
 
 # Or add to your Gemfile
 gem 'gotsha'</code></pre>
       </section>
+          -->
 
-      <p class="foot">© <span id="y"></span> Gotsha. Built for developers who test before they push.</p>
+      <p class="foot">© <span id="y"></span> Vítek Meloun</p>
     </main>
   </div>
   <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
