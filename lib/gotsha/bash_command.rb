@@ -16,7 +16,7 @@ module Gotsha
         end
       end
 
-      new(output.join("\n"), $CHILD_STATUS)
+      new(output.join, $CHILD_STATUS)
     end
 
     def initialize(stdout, status)

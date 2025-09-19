@@ -12,11 +12,15 @@ module Gotsha
         end
 
         tests_result = BashCommand.run!(commands)
-        raise(Errors::ActionFailed, "tests failed") unless tests_result.success?
 
-        BashCommand.silent_run!("git notes --ref=gotsha add -f -m 'ok'")
+        if tests_result.success?
+          BashCommand.silent_run!("git notes --ref=gotsha add -f -m 'ok'")
 
-        "tests passed"
+          "tests passed"
+        else
+          puts tests_result.text_output
+          raise Errors::ActionFailed, "tests failed"
+        end
       rescue Errno::ENOENT
         raise Errors::ActionFailed, "config files not found, please run `bundle exec gotsha init` first"
       end
