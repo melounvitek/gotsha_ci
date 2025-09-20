@@ -25,6 +25,12 @@ module Gotsha
       new(stdout, status)
     end
 
+    def self.silent_run!(command)
+      return run!(command) if Config::USER_CONFIG["verbose"]
+
+      run!("#{command} 2>&1")
+    end
+
     def initialize(stdout, status)
       @stdout = stdout
       @status = status
@@ -36,12 +42,6 @@ module Gotsha
 
     def text_output
       @stdout
-    end
-
-    def self.silent_run!(command)
-      return run!(command) if Config::USER_CONFIG["verbose"]
-
-      run!("#{command} 2>&1")
     end
   end
 end
