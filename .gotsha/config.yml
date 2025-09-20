@@ -6,7 +6,8 @@ pre_push_tests: true
 
 # Your test commands to run
 commands:
-# - bundle exec rubocop
-# - bundle exec rspec
- - rubocop && rspec
+ - rubocop
+ - rspec
 
+# Print out more details (Bash commands output, etc.)
+verbose: false
