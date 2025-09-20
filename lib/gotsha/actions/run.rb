@@ -3,6 +3,10 @@
 module Gotsha
   module Actions
     class Run
+      def initialize
+        @tests_text_outputs = []
+      end
+
       def call
         ensure_commands_defined!
         run_commands!
@@ -21,21 +25,22 @@ module Gotsha
       end
 
       def run_commands!
-        commands.map do |command|
+        commands.each do |command|
           puts "Running `#{command}`..."
 
           command_result = BashCommand.run!(command)
 
-          if command_result.success?
-            command_result.text_output
-          else
-            puts command_result.text_output
-            raise Errors::ActionFailed, "tests failed"
-          end
+          @tests_text_outputs << command_result.text_output
+
+          next if command_result.success?
+
+          puts command_result.text_output
+          raise Errors::ActionFailed, "tests failed"
         end
       end
 
       def create_git_note!
+        # TODO: use `@tests_text_outputs` to store it somehow in Git note
         BashCommand.silent_run!("git notes --ref=gotsha add -f -m 'ok'")
       end
 
