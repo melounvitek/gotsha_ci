@@ -41,13 +41,16 @@ module Gotsha
       end
 
       def create_git_note!(prefix_text = "")
-        note_content = @tests_text_outputs.join("\n\n")
-        note_content = note_content.gsub("'", %q('"'"')) # escape single quotes for shell
-        note_content = "#{prefix_text}\n\n#{note_content}"
+        body = +""
+        body << prefix_text.to_s
+        body << "\n\n" unless prefix_text.to_s.empty?
+        body << @tests_text_outputs.join("\n\n")
+
+        b64 = [body].pack("m0")                       # base64 (no newlines)
+        esc = b64.gsub("'", %q('"'"'))                # escape single quotes
 
         BashCommand.silent_run!(
-          # use `printf` instead of echo to preserve raw ANSI codes
-          "PAGER=cat GIT_PAGER=cat sh -c 'printf %s \"#{note_content}\" | git notes --ref=gotsha add -f -F -'"
+          "PAGER=cat GIT_PAGER=cat sh -c 'printf %s \"#{esc}\" | base64 -d | git notes --ref=gotsha add -f -F -'"
         )
       end
 
