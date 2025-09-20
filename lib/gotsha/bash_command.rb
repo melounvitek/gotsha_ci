@@ -10,8 +10,8 @@ module Gotsha
       stdout = +""
       status = nil
 
-      PTY.spawn(command) do |r, _, pid|
-        r.each do |line|
+      PTY.spawn(command) do |reader, _, pid|
+        reader.each do |line|
           Config::USER_CONFIG["verbose"] && puts(line)
           stdout << line
         end
