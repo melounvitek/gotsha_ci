@@ -53,7 +53,7 @@ module Gotsha
       end
 
       def commands
-        @commands ||= Array(Gotsha::Config::USER_CONFIG.fetch("commands"))
+        @commands ||= Array(Config::USER_CONFIG.fetch("commands"))
       end
     end
   end
