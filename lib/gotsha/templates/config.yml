@@ -10,5 +10,5 @@ commands:
 #  - rubocop && rails t
 #  - docker exec great-app rspec
 
-# Print out test commands output
-debug: false
+# Print out more details (Bash commands output, etc.)
+verbose: false
