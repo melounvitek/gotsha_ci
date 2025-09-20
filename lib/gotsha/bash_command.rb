@@ -1,22 +1,33 @@
 # frozen_string_literal: true
 
-require "English"
+require "pty"
 
 module Gotsha
   class BashCommand
     def self.run!(command)
       Config::USER_CONFIG["verbose"] && puts(command)
-      output = []
 
-      IO.popen(command) do |io|
-        io.each do |line|
+      stdout = +""
+      status = nil
+
+      PTY.spawn(command) do |reader, _, pid|
+        reader.each do |line|
           Config::USER_CONFIG["verbose"] && puts(line)
-
-          output << line
+          stdout << line
         end
+      rescue Errno::EIO
+        # expected when the child closes the PTY
+      ensure
+        _, status = Process.wait2(pid)
       end
 
-      new(output.join, $CHILD_STATUS)
+      new(stdout, status)
+    end
+
+    def self.silent_run!(command)
+      return run!(command) if Config::USER_CONFIG["verbose"]
+
+      run!("#{command} 2>&1")
     end
 
     def initialize(stdout, status)
@@ -29,13 +40,7 @@ module Gotsha
     end
 
     def text_output
-      @stdout
-    end
-
-    def self.silent_run!(command)
-      return run!(command) if Config::USER_CONFIG["verbose"]
-
-      run!("#{command} > /dev/null 2>&1")
+      @stdout.to_s.strip
     end
   end
 end
