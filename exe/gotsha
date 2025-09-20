@@ -8,6 +8,8 @@ action = ARGV.first
 
 begin
   message = Gotsha::ActionDispatcher.call(action)
+
+
   puts("\n✓ Gotsha: #{message}\n\n")
   exit 0
 rescue Gotsha::Errors::ActionFailed => e
