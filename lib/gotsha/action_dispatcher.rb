@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-require "fileutils"
-require "yaml"
-require_relative "actions/init"
-require_relative "actions/run"
-require_relative "actions/verify"
-require_relative "bash_command"
-require_relative "config"
-
 module Gotsha
   class ActionDispatcher
     INIT_SETUP_ACTION = "init"
