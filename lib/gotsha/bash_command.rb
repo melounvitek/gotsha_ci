@@ -6,6 +6,7 @@ require_relative "config"
 module Gotsha
   class BashCommand
     def self.run!(command)
+      Config::USER_CONFIG["verbose"] && puts(command)
       output = []
 
       IO.popen(command) do |io|

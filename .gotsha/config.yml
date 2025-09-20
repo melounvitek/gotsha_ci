@@ -10,5 +10,5 @@ commands:
 # - bundle exec rspec
  - rubocop && rspec
 
-# Print out test commands output
-debug: false
+# Print out more details (Bash commands output, etc.)
+verbose: false
