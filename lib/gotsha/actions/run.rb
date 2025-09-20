@@ -42,12 +42,12 @@ module Gotsha
 
       def create_git_note!(prefix_text = "")
         note_content = @tests_text_outputs.join("\n\n")
-
         note_content = note_content.gsub("'", %q('"'"')) # escape single quotes for shell
+        note_content = "#{prefix_text}\n\n#{note_content}"
 
         BashCommand.silent_run!(
           # use `printf` instead of echo to preserve raw ANSI codes
-          "PAGER=cat GIT_PAGER=cat sh -c 'printf %s \"#{prefix_text}\n#{note_content}\" | git notes --ref=gotsha add -f -F -'"
+          "PAGER=cat GIT_PAGER=cat sh -c 'printf %s \"#{note_content}\" | git notes --ref=gotsha add -f -F -'"
         )
       end
 
