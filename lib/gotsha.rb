@@ -16,5 +16,5 @@ module Gotsha
   include Config
   include Errors
 
-  # Main entry-point: `Gotsha::action_dispatcher.call(action_name)`
+  # Main entry-point: `Gotsha::ActionDispatcher.call(action_name)`
 end
