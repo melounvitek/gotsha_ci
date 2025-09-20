@@ -15,4 +15,6 @@ require_relative "gotsha/version"
 module Gotsha
   include Config
   include Errors
+
+  # Main entry-point: `Gotsha::action_dispatcher.call(action_name)`
 end

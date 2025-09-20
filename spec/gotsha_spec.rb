@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "../lib/gotsha/action_dispatcher"
-
 # rubocop:disable Metrics/BlockLength:
 RSpec.describe Gotsha::ActionDispatcher do
   before do
