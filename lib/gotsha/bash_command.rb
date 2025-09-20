@@ -40,7 +40,7 @@ module Gotsha
     end
 
     def text_output
-      @stdout
+      @stdout.to_s.strip
     end
   end
 end
