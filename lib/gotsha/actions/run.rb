@@ -35,13 +35,21 @@ module Gotsha
           next if command_result.success?
 
           puts command_result.text_output
-          raise Errors::HardFail, "tests failed"
+          raise fail_exception, "tests failed"
         end
       end
 
       def create_git_note!
         # TODO: use `@tests_text_outputs` to store it somehow in Git note
         BashCommand.silent_run!("git notes --ref=gotsha add -f -m 'ok'")
+      end
+
+      def fail_exception
+        if Config::USER_CONFIG.fetch("interrupt_push_on_tests_failure", false)
+          Errors::HardFail
+        else
+          Errors::SoftFail
+        end
       end
 
       def commands
