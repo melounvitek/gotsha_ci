@@ -116,12 +116,12 @@ RSpec.describe Gotsha::ActionDispatcher do
       before do
         expect(Gotsha::BashCommand)
           .to receive(:run!)
-          .with("git rev-parse HEAD")
+          .with("git --no-pager rev-parse HEAD")
           .and_return(double("bash_response", text_output: last_sha))
 
         expect(Gotsha::BashCommand)
           .to receive(:run!)
-          .with("git notes --ref=gotsha show #{last_sha}")
+          .with("git --no-pager notes --ref=gotsha show #{last_sha}")
           .and_return(double("bash_response", text_output: "ok"))
       end
 
@@ -136,12 +136,12 @@ RSpec.describe Gotsha::ActionDispatcher do
       before do
         expect(Gotsha::BashCommand)
           .to receive(:run!)
-          .with("git rev-parse HEAD")
+          .with("git --no-pager rev-parse HEAD")
           .and_return(double("bash_response", text_output: last_sha))
 
         expect(Gotsha::BashCommand)
           .to receive(:run!)
-          .with("git notes --ref=gotsha show #{last_sha}")
+          .with("git --no-pager notes --ref=gotsha show #{last_sha}")
           .and_return(double("bash_response", text_output: ""))
       end
 
