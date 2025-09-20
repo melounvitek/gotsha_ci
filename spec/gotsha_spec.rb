@@ -87,6 +87,11 @@ RSpec.describe Gotsha::ActionDispatcher do
           .to receive(:fetch)
           .with("commands")
           .and_return([test_command])
+
+        allow(Gotsha::Config::USER_CONFIG)
+          .to receive(:fetch)
+          .with("interrupt_push_on_tests_failure")
+          .and_return(false)
       end
 
       it "runs the command" do
