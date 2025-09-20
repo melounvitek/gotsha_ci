@@ -5,7 +5,6 @@ module Gotsha
     class Run
       def call
         ensure_commands_defined!
-
         run_commands!
         create_git_note!
 
