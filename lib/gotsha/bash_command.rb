@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "pty"
 
 module Gotsha
@@ -8,18 +10,16 @@ module Gotsha
       stdout = +""
       status = nil
 
-      PTY.spawn(command) do |r, w, pid|
-        begin
-          r.each do |line|
-            Config::USER_CONFIG["verbose"] && puts(line)
-            stdout << line
-          end
-        rescue Errno::EIO
-          # expected when the child closes the PTY
-        ensure
-          _, ps = Process.wait2(pid)
-          status = ps
+      PTY.spawn(command) do |r, _, pid|
+        r.each do |line|
+          Config::USER_CONFIG["verbose"] && puts(line)
+          stdout << line
         end
+      rescue Errno::EIO
+        # expected when the child closes the PTY
+      ensure
+        _, ps = Process.wait2(pid)
+        status = ps
       end
 
       new(stdout, status)
