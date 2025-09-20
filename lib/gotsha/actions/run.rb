@@ -47,7 +47,7 @@ module Gotsha
 
         BashCommand.silent_run!(
           # use `printf` instead of echo to preserve raw ANSI codes
-          "PAGER=cat GIT_PAGER=cat sh -c 'printf %s \"#{prefix_text\n}#{note_content}\" | git notes --ref=gotsha add -f -F -'"
+          "PAGER=cat GIT_PAGER=cat sh -c 'printf %s \"#{prefix_text}\n#{note_content}\" | git notes --ref=gotsha add -f -F -'"
         )
       end
 
