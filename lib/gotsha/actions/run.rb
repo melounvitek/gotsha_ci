@@ -44,7 +44,6 @@ module Gotsha
         note_content = @tests_text_outputs.join("\n\n")
         note_content = note_content.gsub("'", %q('"'"')) # escape single quotes for shell
         note_content = "#{prefix_text}\n\n#{note_content}"
-        puts "!!! yay !!"
 
         BashCommand.silent_run!(
           # use `printf` instead of echo to preserve raw ANSI codes
