@@ -45,6 +45,8 @@ module Gotsha
       end
 
       def fail_exception
+
+
         if Config::USER_CONFIG.fetch("interrupt_push_on_tests_failure", false)
           Errors::HardFail
         else
