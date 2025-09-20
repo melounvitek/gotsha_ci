@@ -18,8 +18,7 @@ module Gotsha
       rescue Errno::EIO
         # expected when the child closes the PTY
       ensure
-        _, ps = Process.wait2(pid)
-        status = ps
+        _, status = Process.wait2(pid)
       end
 
       new(stdout, status)
