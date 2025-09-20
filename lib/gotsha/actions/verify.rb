@@ -5,7 +5,8 @@ module Gotsha
     class Verify
       def call
         last_commit_sha = BashCommand.run!("git --no-pager rev-parse HEAD").text_output.strip
-        last_comment_note = BashCommand.run!("git --no-pager notes --ref=gotsha show #{last_commit_sha}").text_output.strip
+        last_comment_note =
+          BashCommand.run!("git --no-pager notes --ref=gotsha show #{last_commit_sha}").text_output.strip
 
         raise(Errors::HardFail, "not verified yet") unless last_comment_note == "ok"
 
