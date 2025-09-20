@@ -19,7 +19,7 @@ jobs:
         run: |
           SHA="${{ github.event.pull_request.head.sha }}"
           NOTE="$(git notes --ref=gotsha show "$SHA" 2>/dev/null || true)"
-          if [ "$NOTE" = "ok" ]; then
+          if [ -n "$NOTE" ] && ! [[ "$NOTE" == Tests\ failed:* ]]; then
             echo "✓ gotsha verified for $SHA"
           else
             echo "::error ::Missing gotsha note for $SHA"
