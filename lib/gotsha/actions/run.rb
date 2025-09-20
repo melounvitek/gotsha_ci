@@ -4,23 +4,27 @@ module Gotsha
   module Actions
     class Run
       def call
-        commands = Array(Gotsha::Config::USER_CONFIG.fetch("commands")).join(" && ")
+        commands = Array(Gotsha::Config::USER_CONFIG.fetch("commands"))
 
         if commands.empty?
           raise(Errors::ActionFailed,
                 "please, define some test commands in `.gotsha/config.yml`")
         end
 
-        tests_result = BashCommand.run!(commands)
+        commands.each do |command|
+          puts "Running `#{command}`..."
 
-        if tests_result.success?
-          BashCommand.silent_run!("git notes --ref=gotsha add -f -m 'ok'")
+          command_result = BashCommand.run!(command)
 
-          "tests passed"
-        else
-          puts tests_result.text_output
+          next if command_result.success?
+
+          puts command_result.text_output
           raise Errors::ActionFailed, "tests failed"
         end
+
+        BashCommand.silent_run!("git notes --ref=gotsha add -f -m 'ok'")
+
+        "tests passed"
       end
     end
   end
