@@ -2,6 +2,7 @@
 
 module Gotsha
   module Errors
-    class ActionFailed < StandardError; end
+    class HardFail < StandardError; end
+    class SoftFail < StandardError; end
   end
 end

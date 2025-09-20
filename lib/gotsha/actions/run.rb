@@ -20,7 +20,7 @@ module Gotsha
       def ensure_commands_defined!
         return if commands.any?
 
-        raise(Errors::ActionFailed,
+        raise(Errors::HardFail,
               "please, define some test commands in `.gotsha/config.yml`")
       end
 
@@ -35,7 +35,7 @@ module Gotsha
           next if command_result.success?
 
           puts command_result.text_output
-          raise Errors::ActionFailed, "tests failed"
+          raise Errors::HardFail, "tests failed"
         end
       end
 
