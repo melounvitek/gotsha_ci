@@ -20,7 +20,7 @@ module Gotsha
       def ensure_commands_defined!
         return if commands.any?
 
-        raise(Errors::ActionFailed,
+        raise(Errors::HardFail,
               "please, define some test commands in `.gotsha/config.yml`")
       end
 
@@ -35,7 +35,7 @@ module Gotsha
           next if command_result.success?
 
           puts command_result.text_output
-          raise Errors::ActionFailed, "tests failed"
+          raise fail_exception, "tests failed"
         end
       end
 
@@ -44,8 +44,16 @@ module Gotsha
         BashCommand.silent_run!("git notes --ref=gotsha add -f -m 'ok'")
       end
 
+      def fail_exception
+        if Config::USER_CONFIG.fetch("interrupt_push_on_tests_failure", false)
+          Errors::HardFail
+        else
+          Errors::SoftFail
+        end
+      end
+
       def commands
-        @commands ||= Array(Gotsha::Config::USER_CONFIG.fetch("commands"))
+        @commands ||= Array(Config::USER_CONFIG.fetch("commands"))
       end
     end
   end
