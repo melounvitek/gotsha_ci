@@ -46,8 +46,8 @@ module Gotsha
         body << "\n\n" unless prefix_text.to_s.empty?
         body << @tests_text_outputs.join("\n\n")
 
-        b64 = [body].pack("m0")                       # base64 (no newlines)
-        esc = b64.gsub("'", %q('"'"'))                # escape single quotes
+        b64 = [body].pack("m0") # base64 (no newlines)
+        esc = b64.gsub("'", %q('"'"')) # escape single quotes
 
         BashCommand.silent_run!(
           "PAGER=cat GIT_PAGER=cat sh -c 'printf %s \"#{esc}\" | base64 -d | git notes --ref=gotsha add -f -F -'"
