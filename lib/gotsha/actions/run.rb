@@ -43,7 +43,7 @@ module Gotsha
       def create_git_note!(prefix_text = "")
         note_content = @tests_text_outputs.join("\n\n")
 
-        note_content = body.gsub("'", %q('"'"')) # escape single quotes for shell
+        note_content = note_content.gsub("'", %q('"'"')) # escape single quotes for shell
 
         BashCommand.silent_run!(
           # use `printf` instead of echo to preserve raw ANSI codes
